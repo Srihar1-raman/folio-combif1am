@@ -24,6 +24,7 @@
     <meta name="twitter:image" content="https://combif1am.site/assets/share-card.jpg" />
     <meta name="twitter:image:alt" content="The handwritten Combif1am portfolio displayed on a neutral background." />
     <link rel="canonical" href="https://combif1am.site/" />
+    <link rel="preload" as="image" href="assets/paper-dark.webp" type="image/webp" fetchpriority="high" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <title>Combif1am</title>
     <script>
@@ -208,6 +209,9 @@
         height: 100%;
         object-fit: contain;
         transition: opacity 220ms ease;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        will-change: opacity;
         user-select: none;
         -webkit-user-select: none;
         -webkit-user-drag: none;
@@ -216,6 +220,9 @@
 
       .paper-dark {
         opacity: 0;
+        filter:
+          drop-shadow(0 2px 2px rgba(0, 0, 0, 0.48))
+          drop-shadow(0 18px 28px rgba(0, 0, 0, 0.42));
       }
 
       .link {
@@ -258,9 +265,6 @@
 
       html[data-theme="dark"] .paper-dark {
         opacity: 1;
-        filter:
-          drop-shadow(0 2px 2px rgba(0, 0, 0, 0.48))
-          drop-shadow(0 18px 28px rgba(0, 0, 0, 0.42));
       }
 
       html[data-theme="dark"] .link,
@@ -399,7 +403,11 @@
       (() => {
         const root = document.documentElement;
         const button = document.querySelector(".theme-toggle");
+        const darkPaper = document.querySelector(".paper-dark");
         const themeColor = document.querySelector('meta[name="theme-color"]');
+        const darkPaperReady = typeof darkPaper.decode === "function"
+          ? darkPaper.decode().catch(() => undefined)
+          : Promise.resolve();
 
         const syncButton = () => {
           const dark = root.dataset.theme === "dark";
@@ -409,11 +417,20 @@
           themeColor.content = dark ? "#242529" : "#cbc7bd";
         };
 
-        button.addEventListener("click", () => {
+        button.addEventListener("click", async () => {
           const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+
+          if (nextTheme === "dark") {
+            button.disabled = true;
+            await darkPaperReady;
+            darkPaper.getBoundingClientRect();
+            await new Promise((resolve) => requestAnimationFrame(resolve));
+          }
+
           root.dataset.theme = nextTheme;
           root.style.colorScheme = nextTheme;
           syncButton();
+          button.disabled = false;
         });
 
         syncButton();
