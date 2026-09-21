@@ -43,6 +43,7 @@
         --surface-dark: #b7b2a7;
         --viewport-height: 100vh;
         --page-base: var(--surface-mid);
+        --utility-ink: #6d6962;
         --page-background:
           radial-gradient(
             circle at 50% 34%,
@@ -79,7 +80,7 @@
         width: 100%;
         min-height: 100%;
         margin: 0;
-        cursor: url("assets/cursor.svg") 4 5, default;
+        cursor: url("assets/cursor.svg?v=2") 4 5, default;
       }
 
       html {
@@ -133,9 +134,9 @@
         padding: 0;
         place-items: center;
         border: 0;
-        color: #24211d;
+        color: var(--utility-ink);
         background: transparent;
-        cursor: url("assets/cursor-click.svg") 9 10, pointer;
+        cursor: url("assets/cursor-click.svg?v=2") 9 10, pointer;
         transition:
           color 180ms ease,
           background 180ms ease,
@@ -233,17 +234,18 @@
         border-radius: 0.35rem;
         color: transparent;
         outline: 0;
-        cursor: url("assets/cursor-click.svg") 9 10, pointer;
+        cursor: url("assets/cursor-click.svg?v=2") 9 10, pointer;
         -webkit-tap-highlight-color: transparent;
       }
 
       html[data-theme="dark"],
       html[data-theme="dark"] body {
-        cursor: url("assets/cursor-dark.svg") 4 5, default;
+        cursor: url("assets/cursor-dark.svg?v=2") 4 5, default;
       }
 
       html[data-theme="dark"] {
         --page-base: #202125;
+        --utility-ink: #89867f;
         --page-background:
           radial-gradient(
             circle at 50% 36%,
@@ -269,11 +271,11 @@
 
       html[data-theme="dark"] .link,
       html[data-theme="dark"] .theme-toggle {
-        cursor: url("assets/cursor-click-dark.svg") 9 10, pointer;
+        cursor: url("assets/cursor-click-dark.svg?v=2") 9 10, pointer;
       }
 
       html[data-theme="dark"] .theme-toggle {
-        color: #f5f0e7;
+        color: var(--utility-ink);
         background: transparent;
       }
 
