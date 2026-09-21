@@ -28,11 +28,7 @@
     <title>Combif1am</title>
     <script>
       (() => {
-        let savedTheme = null;
-        try {
-          savedTheme = localStorage.getItem("folio-theme");
-        } catch (_) {}
-        const theme = savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const theme = "light";
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
         document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#242529" : "#cbc7bd";
@@ -368,9 +364,6 @@
           const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
           root.dataset.theme = nextTheme;
           root.style.colorScheme = nextTheme;
-          try {
-            localStorage.setItem("folio-theme", nextTheme);
-          } catch (_) {}
           syncButton();
         });
 
